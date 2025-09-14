@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlanetMetr - Измерь расстояние до планет!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🌌 PlanetMetr</h1>
+        <p>Узнай, как далеко ты находишься от других планет прямо сейчас!</p>
+    </header>
+
+    <main>
+        <div class="control-panel">
+            <h2>Панель управления</h2>
+
+            <div class="input-group">
+                <label for="planet-select">Выбери планету:</label>
+                <select id="planet-select">
+                    <option value="mercury">Меркурий</option>
+                    <option value="venus">Венера</option>
+                    <option value="mars">Марс</option>
+                    <option value="jupiter">Юпитер</option>
+                    <option value="saturn">Сатурн</option>
+                    <option value="uranus">Уран</option>
+                    <option value="neptune">Нептун</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="use-location">
+                    <input type="checkbox" id="use-location" checked>
+                    Использовать мое местоположение
+                </label>
+            </div>
+
+            <div class="input-group" id="manual-location" style="display: none;">
+                <label for="coordinates">Или введите широту и долготу (например: 55.7558, 37.6173):</label>
+                <input type="text" id="coordinates" placeholder="Широта, Долгота">
+            </div>
+
+            <button id="calculate-btn">Рассчитать расстояние!</button>
+        </div>
+
+        <div class="result-panel" id="result-panel" style="display: none;">
+            <h2>Результат:</h2>
+            <p>Расстояние от <span id="location-name">твоей точки</span> до <span id="planet-name">Марса</span>:</p>
+            <p id="distance-value">0</p>
+            <p id="comparison"></p>
+        </div>
+
+        <div class="image-gallery">
+            <h2>Галерея планет</h2>
+            <div class="planets-container">
+                <!-- Изображения планет будут подставляться через JS -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2023 PlanetMetr. Создано с любовью к космосу! 🚀</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
