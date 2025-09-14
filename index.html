@@ -3,66 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlanetMetr - Измерь расстояние до планет!</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Космическая статистика планет</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .space-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom, #000000, #0a0a2a, #0a0a2a);
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(100, 150, 255, 0.8);
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+            color: #aaccff;
+        }
+
+        .counters-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .counter-box {
+            background: rgba(10, 20, 50, 0.6);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 250px;
+            box-shadow: 0 0 20px rgba(50, 130, 255, 0.3);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .counter-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(50, 130, 255, 0.5);
+        }
+
+        .counter-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #4facfe;
+        }
+
+        .counter {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(100, 180, 255, 0.8);
+        }
+
+        .planet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .planet-card {
+            background: rgba(20, 30, 70, 0.6);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 0 15px rgba(50, 130, 255, 0.2);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .planet-card:hover {
+            transform: scale(1.05);
+        }
+
+        .planet-name {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #00f2fe;
+        }
+
+        .planet-stats {
+            text-align: left;
+            list-style-type: none;
+        }
+
+        .planet-stats li {
+            margin-bottom: 0.5rem;
+            color: #aaccff;
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding: 2rem;
+            color: #88aaff;
+            font-size: 0.9rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .counters-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .counter-box {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>🌌 PlanetMetr</h1>
-        <p>Узнай, как далеко ты находишься от других планет прямо сейчас!</p>
-    </header>
-
-    <main>
-        <div class="control-panel">
-            <h2>Панель управления</h2>
-
-            <div class="input-group">
-                <label for="planet-select">Выбери планету:</label>
-                <select id="planet-select">
-                    <option value="mercury">Меркурий</option>
-                    <option value="venus">Венера</option>
-                    <option value="mars">Марс</option>
-                    <option value="jupiter">Юпитер</option>
-                    <option value="saturn">Сатурн</option>
-                    <option value="uranus">Уран</option>
-                    <option value="neptune">Нептун</option>
-                </select>
+    <div class="space-background" id="spaceBackground"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Планетарная статистика</h1>
+            <p class="description">Исследуйте удивительные данные о планетах нашей Солнечной системы и за ее пределами. Анимированные счетчики показывают актуальную информацию о космических объектах.</p>
+        </header>
+        
+        <div class="counters-container">
+            <div class="counter-box">
+                <div class="counter-title">Открыто планет</div>
+                <div class="counter" data-target="4164">0</div>
             </div>
-
-            <div class="input-group">
-                <label for="use-location">
-                    <input type="checkbox" id="use-location" checked>
-                    Использовать мое местоположение
-                </label>
+            
+            <div class="counter-box">
+                <div class="counter-title">Экзопланет</div>
+                <div class="counter" data-target="5138">0</div>
             </div>
-
-            <div class="input-group" id="manual-location" style="display: none;">
-                <label for="coordinates">Или введите широту и долготу (например: 55.7558, 37.6173):</label>
-                <input type="text" id="coordinates" placeholder="Широта, Долгота">
+            
+            <div class="counter-box">
+                <div class="counter-title">Спутников</div>
+                <div class="counter" data-target="205">0</div>
             </div>
-
-            <button id="calculate-btn">Рассчитать расстояние!</button>
-        </div>
-
-        <div class="result-panel" id="result-panel" style="display: none;">
-            <h2>Результат:</h2>
-            <p>Расстояние от <span id="location-name">твоей точки</span> до <span id="planet-name">Марса</span>:</p>
-            <p id="distance-value">0</p>
-            <p id="comparison"></p>
-        </div>
-
-        <div class="image-gallery">
-            <h2>Галерея планет</h2>
-            <div class="planets-container">
-                <!-- Изображения планет будут подставляться через JS -->
+            
+            <div class="counter-box">
+                <div class="counter-title">Карликовых планет</div>
+                <div class="counter" data-target="9">0</div>
             </div>
         </div>
-    </main>
+        
+        <div class="planet-grid">
+            <div class="planet-card">
+                <h3 class="planet-name">Меркурий</h3>
+                <ul class="planet-stats">
+                    <li>Диаметр: 4,879 км</li>
+                    <li>Расстояние от Солнца: 57.9 млн км</li>
+                    <li>Температура: от -173°C до 427°C</li>
+                </ul>
+            </div>
+            
+            <div class="planet-card">
+                <h3 class="planet-name">Венера</h3>
+                <ul class="planet-stats">
+                    <li>Диаметр: 12,104 км</li>
+                    <li>Расстояние от Солнца: 108.2 млн км</li>
+                    <li>Температура: 462°C</li>
+                </ul>
+            </div>
+            
+            <div class="planet-card">
+                <h3 class="planet-name">Земля</h3>
+                <ul class="planet-stats">
+                    <li>Диаметр: 12,742 км</li>
+                    <li>Расстояние от Солнца: 149.6 млн км</li>
+                    <li>Температура: в среднем 15°C</li>
+                </ul>
+            </div>
+            
+            <div class="planet-card">
+                <h3 class="planet-name">Марс</h3>
+                <ul class="planet-stats">
+                    <li>Диаметр: 6,779 км</li>
+                    <li>Расстояние от Солнца: 227.9 млн км</li>
+                    <li>Температура: от -153°C до 20°C</li>
+                </ul>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 Космическая статистика. Все данные собраны из открытых источников NASA и ESA.</p>
+        </footer>
+    </div>
 
-    <footer>
-        <p>© 2025 PlanetMetr. Создано с любовью к космосу и моему колледжу!! 🚀</p>
-    </footer>
-
-    <script src="script.js"></script>
+    <script>
+        // Создание звездного фона
+        function createStars() {
+            const spaceBackground = document.getElementById('spaceBackground');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Случайные размер и позиция
+                const size = Math.random() * 3;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${posX}%`;
+                star.style.top = `${posY}%`;
+                
+                // Случайная длительность анимации
+                star.style.animationDuration = `${3 + Math.random() * 4}s`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                spaceBackground.appendChild(star);
+            }
+        }
+        
+        // Анимированный счетчик
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200; // Скорость анимации
+            
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = Math.ceil(target / speed);
+                
+                let current = 0;
+                
+                const updateCount = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.innerText = current.toLocaleString();
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target.toLocaleString();
+                    }
+                };
+                
+                // Запускаем анимацию при появлении в viewport
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCount();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                
+                observer.observe(counter);
+            });
+        }
+        
+        // Инициализация при загрузке страницы
+        window.onload = function() {
+            createStars();
+            animateCounters();
+        };
+    </script>
 </body>
 </html>
