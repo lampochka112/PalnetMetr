@@ -398,6 +398,36 @@
         <li>Тип: Скальный</li>
       </ul>
     </div>
+    <!-- Новый: Юпитер -->
+    <div class="planet-card">
+      <h3 class="planet-name">Юпитер</h3>
+      <ul class="planet-stats">
+        <li>Диаметр: 139,822 км</li>
+        <li>Масса: 1,898×10^27 кг</li>
+        <li>Плотность: 1.33 г/см³</li>
+        <li>Расстояние от Солнца: 778.5 млн км</li>
+        <li>Орбитальная скорость: 13.07 км/с</li>
+        <li>Температура: -145°C</li>
+        <li>Атмосфера: водород, гелий</li>
+        <li>Количество спутников: 79</li>
+        <li>Тип: Газовый гигант</li>
+      </ul>
+    </div>
+    <!-- Новый: Сатурн -->
+    <div class="planet-card">
+      <h3 class="planet-name">Сатурн</h3>
+      <ul class="planet-stats">
+        <li>Диаметр: 116,464 км</li>
+        <li>Масса: 5,683×10^26 кг</li>
+        <li>Плотность: 0.69 г/см³</li>
+        <li>Расстояние от Солнца: 1,434 млрд км</li>
+        <li>Орбитальная скорость: 9.69 км/с</li>
+        <li>Температура: -178°C</li>
+        <li>Атмосфера: водород, гелий</li>
+        <li>Количество спутников: 82</li>
+        <li>Тип: Газовый гигант</li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -417,7 +447,6 @@
       <div class="faq-question" onclick="toggleFaq(this)">Что такое карликовые планеты? <span>&#x25BC;</span></div>
       <div class="faq-answer">Карликовые планеты — это объекты, которые обладают достаточной массой, чтобы иметь округлую форму, но не очистили свою окрестность от других объектов.</div>
     </div>
-    <!-- Дополнительные вопросы -->
     <div class="faq-item">
       <div class="faq-question" onclick="toggleFaq(this)">Какие планеты считаются газовыми гигантами? <span>&#x25BC;</span></div>
       <div class="faq-answer">К газовым гигантам относятся Юпитер и Сатурн, они состоят в основном из газа и имеют очень большие размеры.</div>
@@ -449,6 +478,8 @@
       <option value="Venus" data-distance="108.2">Венера</option>
       <option value="Earth" data-distance="149.6">Земля</option>
       <option value="Mars" data-distance="227.9">Марс</option>
+      <option value="Jupiter" data-distance="778.5">Юпитер</option>
+      <option value="Saturn" data-distance="1434">Сатурн</option>
     </select>
     <label for="planet2">Выберите вторую планету:</label>
     <select id="planet2" required>
@@ -457,6 +488,8 @@
       <option value="Venus" data-distance="108.2">Венера</option>
       <option value="Earth" data-distance="149.6">Земля</option>
       <option value="Mars" data-distance="227.9">Марс</option>
+      <option value="Jupiter" data-distance="778.5">Юпитер</option>
+      <option value="Saturn" data-distance="1434">Сатурн</option>
     </select>
     <button type="submit" class="calculate-btn">Посчитать</button>
   </form>
