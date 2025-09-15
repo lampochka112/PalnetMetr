@@ -1,318 +1,555 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Космическая статистика планет</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Космическая статистика планет</title>
+<style>
+  /* Общие стили */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            min-height: 100vh;
-            background: #000;
-            color: #fff;
-            overflow-x: hidden;
-            position: relative;
-        }
+  body {
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+  }
 
-        .space-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(to bottom, #000000, #0a0a2a, #0a0a2a);
-            overflow: hidden;
-        }
+  /* Космический фон звезд */
+  .space-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(to bottom, #000000, #0a0a2a, #0a0a2a);
+    overflow: hidden;
+  }
 
-        .star {
-            position: absolute;
-            background-color: #fff;
-            border-radius: 50%;
-            animation: twinkle 5s infinite;
-        }
+  .star {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: twinkle 5s infinite;
+  }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
-        }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+  }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
+  /* Контейнер */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+  }
 
-        header {
-            margin-bottom: 3rem;
-        }
+  /* Заголовок */
+  header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(100, 150, 255, 0.8);
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+  }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(100, 150, 255, 0.8);
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+  /* Навигация вкладок */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 1rem;
+  }
 
-        .description {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-            line-height: 1.6;
-            color: #aaccff;
-        }
+  .tab {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
 
-        .counters-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2rem;
-            margin: 3rem 0;
-        }
+  .tab:hover, .tab.active {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    box-shadow: 0 0 15px rgba(118, 75, 162, 0.7);
+  }
 
-        .counter-box {
-            background: rgba(10, 20, 50, 0.6);
-            border-radius: 15px;
-            padding: 2rem;
-            width: 250px;
-            box-shadow: 0 0 20px rgba(50, 130, 255, 0.3);
-            border: 1px solid rgba(100, 150, 255, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+  /* Описание */
+  .description {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 1rem auto 2rem;
+    line-height: 1.6;
+    color: #aaccff;
+    text-align: center;
+  }
 
-        .counter-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 30px rgba(50, 130, 255, 0.5);
-        }
+  /* Счётчики */
+  .counters-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin: 3rem 0;
+  }
 
-        .counter-title {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: #4facfe;
-        }
+  .counter-box {
+    background: rgba(10, 20, 50, 0.6);
+    border-radius: 15px;
+    padding: 2rem;
+    width: 250px;
+    box-shadow: 0 0 20px rgba(50, 130, 255, 0.3);
+    border: 1px solid rgba(100, 150, 255, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
 
-        .counter {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(100, 180, 255, 0.8);
-        }
+  .counter-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px rgba(50, 130, 255, 0.5);
+  }
 
-        .planet-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
-        }
+  .counter-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #4facfe;
+  }
 
-        .planet-card {
-            background: rgba(20, 30, 70, 0.6);
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 0 15px rgba(50, 130, 255, 0.2);
-            border: 1px solid rgba(100, 150, 255, 0.2);
-            transition: transform 0.3s;
-        }
+  .counter {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(100, 180, 255, 0.8);
+  }
 
-        .planet-card:hover {
-            transform: scale(1.05);
-        }
+  /* Планетарная сетка */
+  .planet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 4rem 0;
+  }
 
-        .planet-name {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #00f2fe;
-        }
+  .planet-card {
+    background: rgba(20, 30, 70, 0.6);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 0 15px rgba(50, 130, 255, 0.2);
+    border: 1px solid rgba(100, 150, 255, 0.2);
+    transition: transform 0.3s;
+  }
 
-        .planet-stats {
-            text-align: left;
-            list-style-type: none;
-        }
+  .planet-card:hover {
+    transform: scale(1.05);
+  }
 
-        .planet-stats li {
-            margin-bottom: 0.5rem;
-            color: #aaccff;
-        }
+  .planet-name {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #00f2fe;
+    text-align: center;
+  }
 
-        footer {
-            margin-top: 4rem;
-            padding: 2rem;
-            color: #88aaff;
-            font-size: 0.9rem;
-        }
+  .planet-stats {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
 
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .counters-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .counter-box {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-    </style>
+  .planet-stats li {
+    margin-bottom: 0.5rem;
+    color: #aaccff;
+  }
+
+  /* Вкладки FAQ */
+  .faq {
+    margin-top: 3rem;
+  }
+
+  .faq h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #00f2fe;
+  }
+
+  .faq-item {
+    margin-bottom: 1rem;
+    background: rgba(20,20,50,0.6);
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid rgba(100,150,255,0.3);
+  }
+  .faq-question {
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-answer {
+    margin-top: 0.5rem;
+    display: none;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(100,150,255,0.2);
+  }
+
+  /* Кнопка показать/скрыть калькулятор */
+  #toggleCalculator {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(118, 75, 162, 0.5);
+    transition: all 0.3s ease;
+    margin: 2rem auto;
+    display: block;
+  }
+
+  #toggleCalculator:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    box-shadow: 0 0 20px rgba(118, 75, 162, 0.7);
+  }
+
+  /* Калькулятор в космическом стиле */
+  .calculator-section {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: radial-gradient(ellipse at center, #111, #000);
+    border-radius: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    display: none; /* по умолчанию скрыт */
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 30px rgba(118, 75, 162, 0.5);
+  }
+
+  .calculator-header {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #00f2fe;
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.8);
+  }
+
+  .calculator-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 2px solid #00f2fe;
+    background: #000;
+    color: #fff;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+  }
+
+  .calculate-btn {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(118, 75, 162, 0.5);
+    transition: all 0.3s ease;
+  }
+
+  .calculate-btn:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    box-shadow: 0 0 20px rgba(118, 75, 162, 0.7);
+  }
+
+  .result {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.8);
+  }
+</style>
 </head>
 <body>
-    <div class="space-background" id="spaceBackground"></div>
-    
-    <div class="container">
-        <header>
-            <h1>Планетарная статистика</h1>
-            <p class="description">Исследуйте удивительные данные о планетах нашей Солнечной системы и за ее пределами. Анимированные счетчики показывают актуальную информацию о космических объектах.</p>
-        </header>
-        
-        <div class="counters-container">
-            <div class="counter-box">
-                <div class="counter-title">Открыто планет</div>
-                <div class="counter" data-target="4164">0</div>
-            </div>
-            
-            <div class="counter-box">
-                <div class="counter-title">Экзопланет</div>
-                <div class="counter" data-target="5138">0</div>
-            </div>
-            
-            <div class="counter-box">
-                <div class="counter-title">Спутников</div>
-                <div class="counter" data-target="205">0</div>
-            </div>
-            
-            <div class="counter-box">
-                <div class="counter-title">Карликовых планет</div>
-                <div class="counter" data-target="9">0</div>
-            </div>
-        </div>
-        
-        <div class="planet-grid">
-            <div class="planet-card">
-                <h3 class="planet-name">Меркурий</h3>
-                <ul class="planet-stats">
-                    <li>Диаметр: 4,879 км</li>
-                    <li>Расстояние от Солнца: 57.9 млн км</li>
-                    <li>Температура: от -173°C до 427°C</li>
-                </ul>
-            </div>
-            
-            <div class="planet-card">
-                <h3 class="planet-name">Венера</h3>
-                <ul class="planet-stats">
-                    <li>Диаметр: 12,104 км</li>
-                    <li>Расстояние от Солнца: 108.2 млн км</li>
-                    <li>Температура: 462°C</li>
-                </ul>
-            </div>
-            
-            <div class="planet-card">
-                <h3 class="planet-name">Земля</h3>
-                <ul class="planet-stats">
-                    <li>Диаметр: 12,742 км</li>
-                    <li>Расстояние от Солнца: 149.6 млн км</li>
-                    <li>Температура: в среднем 15°C</li>
-                </ul>
-            </div>
-            
-            <div class="planet-card">
-                <h3 class="planet-name">Марс</h3>
-                <ul class="planet-stats">
-                    <li>Диаметр: 6,779 км</li>
-                    <li>Расстояние от Солнца: 227.9 млн км</li>
-                    <li>Температура: от -153°C до 20°C</li>
-                </ul>
-            </div>
-        </div>
-        
-        <footer>
-            <p>© 2023 Космическая статистика. Все данные собраны из открытых источников NASA и ESA.</p>
-        </footer>
-    </div>
+<div class="space-background" id="spaceBackground"></div>
 
-    <script>
-        // Создание звездного фона
-        function createStars() {
-            const spaceBackground = document.getElementById('spaceBackground');
-            const starCount = 200;
-            
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                
-                // Случайные размер и позиция
-                const size = Math.random() * 3;
-                const posX = Math.random() * 100;
-                const posY = Math.random() * 100;
-                
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.left = `${posX}%`;
-                star.style.top = `${posY}%`;
-                
-                // Случайная длительность анимации
-                star.style.animationDuration = `${3 + Math.random() * 4}s`;
-                star.style.animationDelay = `${Math.random() * 5}s`;
-                
-                spaceBackground.appendChild(star);
-            }
+<div class="container">
+  <header>
+    <h1>Планетарная статистика</h1>
+    <p class="description">Исследуйте удивительные данные о планетах нашей Солнечной системы и за ее пределами. Анимированные счетчики показывают актуальную информацию о космических объектах.</p>
+  </header>
+
+<!-- Вкладки -->
+<div class="tabs">
+  <div class="tab active" data-tab="stats">Статистика</div>
+  <div class="tab" data-tab="info">Информация о планетах</div>
+  <div class="tab" data-tab="faq">FAQ</div>
+</div>
+
+<!-- Контент вкладок -->
+<div id="tab-content">
+
+<!-- Статистика -->
+<div class="tab-pane" id="stats">
+  <div class="counters-container">
+    <div class="counter-box">
+      <div class="counter-title">Открыто планет</div>
+      <div class="counter" data-target="4164">0</div>
+    </div>
+    <div class="counter-box">
+      <div class="counter-title">Экзопланет</div>
+      <div class="counter" data-target="5138">0</div>
+    </div>
+    <div class="counter-box">
+      <div class="counter-title">Спутников</div>
+      <div class="counter" data-target="205">0</div>
+    </div>
+    <div class="counter-box">
+      <div class="counter-title">Карликовых планет</div>
+      <div class="counter" data-target="9">0</div>
+    </div>
+  </div>
+</div>
+
+<!-- Информация о планетах -->
+<div class="tab-pane" id="info" style="display:none;">
+  <div class="planet-grid">
+    <!-- Полный список с расширенными данными -->
+    <!-- Меркурий -->
+    <div class="planet-card">
+      <h3 class="planet-name">Меркурий</h3>
+      <ul class="planet-stats">
+        <li>Диаметр: 4,879 км</li>
+        <li>Расстояние от Солнца: 57.9 млн км</li>
+        <li>Температура: от -173°C до 427°C</li>
+        <li>Атмосфера: очень разреженная</li>
+        <li>Тип: Скальный</li>
+      </ul>
+    </div>
+    <!-- Венера -->
+    <div class="planet-card">
+      <h3 class="planet-name">Венера</h3>
+      <ul class="planet-stats">
+        <li>Диаметр: 12,104 км</li>
+        <li>Расстояние от Солнца: 108.2 млн км</li>
+        <li>Температура: 462°C</li>
+        <li>Атмосфера: плотная, с высоким содержанием CO₂</li>
+        <li>Тип: Скальный</li>
+      </ul>
+    </div>
+    <!-- Земля -->
+    <div class="planet-card">
+      <h3 class="planet-name">Земля</h3>
+      <ul class="planet-stats">
+        <li>Диаметр: 12,742 км</li>
+        <li>Расстояние от Солнца: 149.6 млн км</li>
+        <li>Температура: в среднем 15°C</li>
+        <li>Атмосфера: азот и кислород</li>
+        <li>Тип: Скальный/Жидкая вода</li>
+      </ul>
+    </div>
+    <!-- Марс -->
+    <div class="planet-card">
+      <h3 class="planet-name">Марс</h3>
+      <ul class="planet-stats">
+        <li>Диаметр: 6,779 км</li>
+        <li>Расстояние от Солнца: 227.9 млн км</li>
+        <li>Температура: от -153°C до 20°C</li>
+        <li>Атмосфера: очень разреженная, в основном CO₂</li>
+        <li>Тип: Скальный</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="tab-pane" id="faq" style="display:none;">
+  <div class="faq">
+    <h2>Часто задаваемые вопросы</h2>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Что такое экзопланеты? <span>&#x25BC;</span></div>
+      <div class="faq-answer">Экзопланеты — это планеты, которые находятся за пределами нашей Солнечной системы и обращаются вокруг других звезд.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Как измеряют диаметр планеты? <span>&#x25BC;</span></div>
+      <div class="faq-answer">Диаметр планеты измеряют с помощью телескопов и различных методов астрономических наблюдений, включая радиолокацию и фотометрические данные.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Что такое карликовые планеты? <span>&#x25BC;</span></div>
+      <div class="faq-answer">Карликовые планеты — это объекты, которые обладают достаточной массой, чтобы иметь округлую форму, но не очистили свою окрестность от других объектов.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Кнопка для отображения калькулятора -->
+<button id="toggleCalculator">Посчитать расстояние между планетами</button>
+
+<!-- Калькулятор -->
+<div class="calculator-section" id="calculatorSection">
+  <div class="calculator-header">Расстояние между планетами</div>
+  <form class="calculator-form" id="distanceForm">
+    <label for="planet1">Выберите первую планету:</label>
+    <select id="planet1" required>
+      <option value="">--Выберите планету--</option>
+      <option value="Mercury" data-distance="57.9">Меркурий</option>
+      <option value="Venus" data-distance="108.2">Венера</option>
+      <option value="Earth" data-distance="149.6">Земля</option>
+      <option value="Mars" data-distance="227.9">Марс</option>
+    </select>
+    <label for="planet2">Выберите вторую планету:</label>
+    <select id="planet2" required>
+      <option value="">--Выберите планету--</option>
+      <option value="Mercury" data-distance="57.9">Меркурий</option>
+      <option value="Venus" data-distance="108.2">Венера</option>
+      <option value="Earth" data-distance="149.6">Земля</option>
+      <option value="Mars" data-distance="227.9">Марс</option>
+    </select>
+    <button type="submit" class="calculate-btn">Посчитать</button>
+  </form>
+  <div class="result" id="distanceResult"></div>
+</div>
+
+<footer style="margin-top:50px; text-align:center; color:#88aaff;">
+  <p>© 2023 Космическая статистика. Все данные собраны из открытых источников NASA и ESA.</p>
+</footer>
+</div>
+
+<script>
+  // Создание звезд
+  function createStars() {
+    const spaceBackground = document.getElementById('spaceBackground');
+    const starCount = 200;
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      const size = Math.random() * 3;
+      const posX = Math.random() * 100;
+      const posY = Math.random() * 100;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.left = `${posX}%`;
+      star.style.top = `${posY}%`;
+      star.style.animationDuration = `${3 + Math.random() * 4}s`;
+      star.style.animationDelay = `${Math.random() * 5}s`;
+      spaceBackground.appendChild(star);
+    }
+  }
+
+  // Анимация счетчиков
+  function animateCounters() {
+    const counters = document.querySelectorAll('.counter');
+    const speed = 200;
+    counters.forEach(counter => {
+      const target = +counter.getAttribute('data-target');
+      const increment = Math.ceil(target / speed);
+      let current = 0;
+      const updateCount = () => {
+        current += increment;
+        if (current < target) {
+          counter.innerText = current.toLocaleString();
+          setTimeout(updateCount, 1);
+        } else {
+          counter.innerText = target.toLocaleString();
         }
-        
-        // Анимированный счетчик
-        function animateCounters() {
-            const counters = document.querySelectorAll('.counter');
-            const speed = 200; // Скорость анимации
-            
-            counters.forEach(counter => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                const increment = Math.ceil(target / speed);
-                
-                let current = 0;
-                
-                const updateCount = () => {
-                    current += increment;
-                    if (current < target) {
-                        counter.innerText = current.toLocaleString();
-                        setTimeout(updateCount, 1);
-                    } else {
-                        counter.innerText = target.toLocaleString();
-                    }
-                };
-                
-                // Запускаем анимацию при появлении в viewport
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            updateCount();
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                });
-                
-                observer.observe(counter);
-            });
-        }
-        
-        // Инициализация при загрузке страницы
-        window.onload = function() {
-            createStars();
-            animateCounters();
-        };
-    </script>
+      };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            updateCount();
+            observer.unobserve(entry.target);
+          }
+        });
+      });
+      observer.observe(counter);
+    });
+  }
+
+  // Переключение вкладок
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const tabId = tab.getAttribute('data-tab');
+
+      document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+      document.getElementById(tabId).style.display = 'block';
+    });
+  });
+
+  // Открытие/закрытие калькулятора
+  document.getElementById('toggleCalculator').addEventListener('click', () => {
+    const section = document.getElementById('calculatorSection');
+    if (section.style.display === 'none' || section.style.display === '') {
+      section.style.display = 'flex';
+    } else {
+      section.style.display = 'none';
+      document.getElementById('distanceResult').innerText = '';
+    }
+  });
+
+  // Обработка формы калькулятора
+  document.getElementById('distanceForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const select1 = document.getElementById('planet1');
+    const select2 = document.getElementById('planet2');
+    const resultDiv = document.getElementById('distanceResult');
+
+    const distance1 = select1.options[select1.selectedIndex].getAttribute('data-distance');
+    const distance2 = select2.options[select2.selectedIndex].getAttribute('data-distance');
+
+    if (!distance1 || !distance2) {
+      resultDiv.innerText = 'Пожалуйста, выберите обе планеты.';
+      return;
+    }
+
+    const dist1 = parseFloat(distance1);
+    const dist2 = parseFloat(distance2);
+    const diff = Math.abs(dist1 - dist2);
+
+    resultDiv.innerText = `Расстояние между ${select1.options[select1.selectedIndex].text} и ${select2.options[select2.selectedIndex].text} составляет примерно ${diff.toFixed(1)} млн км.`;
+  });
+
+  // Вкладки FAQ
+  function toggleFaq(element) {
+    const answer = element.nextElementSibling;
+    if (answer.style.display === 'block') {
+      answer.style.display = 'none';
+    } else {
+      answer.style.display = 'block';
+    }
+  }
+
+  // Инициализация
+  window.onload = () => {
+    createStars();
+    animateCounters();
+  };
+</script>
 </body>
 </html>
