@@ -344,6 +344,17 @@
     color: #fff;
     text-shadow: 0 0 10px rgba(0, 242, 254, 0.8);
   }
+
+  /* Стиль для звезд игры */
+  .game-star {
+    box-shadow: 0 0 10px #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .game-star:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 20px #fff;
+  }
 </style>
 </head>
 <body>
@@ -483,7 +494,7 @@
         <li>Тип: Газовый гигант</li>
       </ul>
     </div>
-    <!-- Новый: Уран -->
+    <!-- Уран -->
     <div class="planet-card">
       <h3 class="planet-name">Уран</h3>
       <ul class="planet-stats">
@@ -498,7 +509,7 @@
         <li>Тип: Лютеиновый газовый гигант</li>
       </ul>
     </div>
-    <!-- Новый: Нептун -->
+    <!-- Нептун -->
     <div class="planet-card">
       <h3 class="planet-name">Нептун</h3>
       <ul class="planet-stats">
@@ -600,6 +611,19 @@
   <div class="result" id="distanceResult"></div>
 </div>
 
+<!-- Новый раздел: Легкая космическая игра -->
+<div style="margin-top:50px; text-align:center;">
+  <h2 style="color:#00f2fe; margin-bottom:20px;">Космический ловец звезд!</h2>
+  <p style="color:#aaccff;">Ловите падающие звезды и зарабатывайте очки! Попробуйте поймать как можно больше звезд за 30 секунд.</p>
+  <button id="startGame" style="margin:20px; padding:10px 20px; font-size:1.2rem; border:none; border-radius:50px; background:linear-gradient(135deg, #667eea, #764ba2); color:#fff; cursor:pointer; transition:all 0.3s;">Начать игру</button>
+  
+  <!-- Игровое поле -->
+  <div id="gameArea" style="display:none; position: relative; width: 100%; max-width: 800px; height: 400px; margin: 0 auto; border: 2px solid #00f2fe; border-radius:15px; background: radial-gradient(ellipse at center, #000, #111); overflow: hidden;">
+    <div id="scoreDisplay" style="position:absolute; top:10px; left:10px; font-size:1.5rem; color:#fff; text-shadow:0 0 10px rgba(0,255,255,0.8);">Очки: 0</div>
+    <div id="timerDisplay" style="position:absolute; top:10px; right:10px; font-size:1.5rem; color:#fff; text-shadow:0 0 10px rgba(0,255,255,0.8);">Время: 30</div>
+  </div>
+</div>
+
 <!-- Подвал -->
 <footer style="margin-top:50px; text-align:center; color:#88aaff;">
   <p>© 2025 Космическая статистика. Все данные собраны из открытых источников NASA и ESA.</p>
@@ -607,7 +631,7 @@
 </div>
 
 <script>
-  // Создание звезд
+  // Создание звезд на фоне
   function createStars() {
     const spaceBackground = document.getElementById('spaceBackground');
     const starCount = 200;
@@ -717,6 +741,95 @@
     const answer = element.nextElementSibling;
     answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
   }
+
+  // --- Улучшенная космическая игра ---
+  let gameTimeout = null;
+  let gameTimer = null;
+  let gameTime = 30; // секунды
+  let score = 0;
+
+  const startBtn = document.getElementById('startGame');
+  const gameArea = document.getElementById('gameArea');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const timerDisplay = document.getElementById('timerDisplay');
+
+  startBtn.addEventListener('click', () => {
+    // сброс
+    score = 0;
+    scoreDisplay.innerText = 'Очки: 0';
+    gameTime = 30;
+    timerDisplay.innerText = 'Время: 30';
+    startBtn.style.display = 'none';
+    gameArea.style.display = 'block';
+
+    // таймер
+    gameTimer = setInterval(() => {
+      gameTime--;
+      timerDisplay.innerText = `Время: ${gameTime}`;
+      if (gameTime <= 0) {
+        clearInterval(gameTimer);
+        clearTimeout(gameTimeout);
+        alert(`Игра окончена! Вы набрали ${score} очков.`);
+        startBtn.style.display = 'inline-block';
+        gameArea.style.display = 'none';
+      }
+    }, 1000);
+    spawnStar(); // запуск появления звезд
+  });
+
+  function spawnStar() {
+    if (gameTime <= 0) return;
+    const star = document.createElement('div');
+    star.className = 'game-star';
+    star.style.width = '20px';
+    star.style.height = '20px';
+    star.style.backgroundColor = '#fff';
+    star.style.borderRadius = '50%';
+    star.style.position = 'absolute';
+
+    // позиция
+    star.style.left = Math.random() * (gameArea.clientWidth - 20) + 'px';
+    star.style.top = '0px';
+
+    // анимация падения
+    const fallDuration = 2000 + Math.random() * 2000; // 2-4 сек
+    const animation = star.animate([
+      { transform: 'translateY(0)', opacity: 1 },
+      { transform: `translateY(${gameArea.clientHeight - 20}px)`, opacity: 0.5 }
+    ], {
+      duration: fallDuration,
+      fill: 'forwards'
+    });
+    animation.onfinish = () => { star.remove(); };
+
+    // обработка клика
+    star.addEventListener('click', () => {
+      score++;
+      scoreDisplay.innerText = `Очки: ${score}`;
+      star.remove();
+    });
+
+    // добавляем в область
+    document.getElementById('gameArea').appendChild(star);
+
+    // следующая звезда через случайный интервал
+    gameTimeout = setTimeout(spawnStar, 300 + Math.random() * 300);
+  }
+
+  // добавим стиль для звезд
+  const styleStars = document.createElement('style');
+  styleStars.innerHTML = `
+    .game-star {
+      box-shadow: 0 0 10px #fff;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .game-star:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 20px #fff;
+    }
+  `;
+  document.head.appendChild(styleStars);
 
   // Инициализация
   window.onload = () => {
