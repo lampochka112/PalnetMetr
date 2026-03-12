@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Космическая статистика планет ✦ Улучшенный дизайн</title>
+    <title>Космическая статистика ✦ Галактический дизайн</title>
     <style>
         * {
             margin: 0;
@@ -12,655 +12,973 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, 'Geneva', Verdana, sans-serif;
-            background: #03050f;
-            color: #f0f4fa;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: #030514;
+            color: #fff;
             overflow-x: hidden;
             min-height: 100vh;
-            position: relative;
         }
 
-        /* 🌌 Глубокий космос с парящими частицами */
-        .cosmic-bg {
+        /* 🔥 Эпический 3D космос с туманностями */
+        .universe {
             position: fixed;
+            width: 100%;
+            height: 100%;
             top: 0;
             left: 0;
+            z-index: -5;
+        }
+
+        #bgCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -4;
+        }
+
+        /* Плавающие частицы */
+        .particles {
+            position: fixed;
             width: 100%;
             height: 100%;
             z-index: -3;
-            background: radial-gradient(ellipse at 40% 40%, #0a0f2a, #000000);
+            background: radial-gradient(circle at 20% 30%, rgba(100, 150, 255, 0.15) 0%, transparent 30%),
+                        radial-gradient(circle at 80% 70%, rgba(200, 100, 255, 0.15) 0%, transparent 35%),
+                        radial-gradient(circle at 40% 80%, rgba(50, 200, 255, 0.1) 0%, transparent 40%);
+            filter: blur(40px);
+            animation: nebulaDrift 30s infinite alternate;
         }
 
-        /* Звездное поле с параллаксом */
-        .stars, .twinkling, .clouds {
+        @keyframes nebulaDrift {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+            100% { transform: scale(1.2) rotate(5deg); opacity: 0.8; }
+        }
+
+        /* Центральная звезда (солнце) — эпичное */
+        .star-core {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-            z-index: -2;
-        }
-
-        .stars {
-            background: #000 url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48Y2lyY2xlIGN4PSI2IiBjeT0iMTQiIHI9IjEiIGZpbGw9IiNmZmZmZmYiIC8+PGNpcmNsZSBjeD0iMTYwIiBjeT0iNjAiIHI9IjIiIGZpbGw9IiNmZmZmZmYiIC8+PGNpcmNsZSBjeD0iNDAiIGN5PSIyMDAiIHI9IjEiIGZpbGw9IiNmZmZmZmYiIC8+PC9zdmc+');
-            background-size: 300px 300px;
-            animation: starMove 100s linear infinite;
-            opacity: 0.7;
-        }
-
-        .twinkling {
-            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSIxLjUiIGZpbGw9IiNmZmZmZmYiIC8+PC9zdmc+') repeat;
-            background-size: 500px 500px;
-            animation: twinklingAnim 4s infinite alternate;
-            opacity: 0.4;
-        }
-
-        @keyframes starMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 300px 300px; }
-        }
-
-        @keyframes twinklingAnim {
-            0% { opacity: 0.2; }
-            100% { opacity: 0.8; }
-        }
-
-        /* 🌞 Солнце — более реалистичное и динамичное */
-        .sun {
-            position: fixed;
-            top: 5%;
+            top: 10%;
             right: 5%;
-            width: 220px;
-            height: 220px;
-            background: radial-gradient(circle at 30% 30%, #fff9b0, #ff8c00, #ff4500);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at 30% 30%, #fff9b0, #ff8c00, #ff2b00);
             border-radius: 50%;
-            box-shadow: 0 0 100px 50px rgba(255, 140, 0, 0.6), 0 0 200px 100px rgba(255, 215, 0, 0.3);
-            z-index: -1;
-            animation: sunPulse 5s infinite alternate, sunDrift 15s infinite ease-in-out;
-            filter: blur(2px);
+            filter: blur(8px);
+            box-shadow: 0 0 150px 80px #ff6a00, 0 0 300px 150px #ffaa33;
+            z-index: -2;
+            animation: starPulse 4s infinite alternate, starOrbit 20s infinite linear;
             mix-blend-mode: screen;
         }
 
-        @keyframes sunPulse {
-            0% { box-shadow: 0 0 100px 50px rgba(255, 140, 0, 0.6), 0 0 200px 100px rgba(255, 215, 0, 0.3); }
-            100% { box-shadow: 0 0 150px 80px rgba(255, 100, 0, 0.8), 0 0 250px 150px rgba(255, 255, 0, 0.5); }
+        @keyframes starPulse {
+            0% { box-shadow: 0 0 150px 80px #ff6a00, 0 0 300px 150px #ffaa33; }
+            100% { box-shadow: 0 0 200px 120px #ffaa00, 0 0 400px 200px #ffdd88; }
         }
 
-        @keyframes sunDrift {
-            0% { transform: translate(0, 0); }
-            50% { transform: translate(-10px, 10px); }
-            100% { transform: translate(0, 0); }
+        @keyframes starOrbit {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-15px, 10px) rotate(5deg); }
+            50% { transform: translate(10px, -15px) rotate(-5deg); }
+            75% { transform: translate(-10px, -5px) rotate(3deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
         }
 
-        /* Планеты на заднем плане (декоративные) */
-        .floating-planet {
+        /* Планеты на орбитах (декоративные) */
+        .orbit-planet {
             position: fixed;
             border-radius: 50%;
-            background: radial-gradient(circle at 20% 20%, #8b6b4d, #4a2e1e);
-            box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
             z-index: -1;
-            opacity: 0.3;
-            animation: float 20s infinite alternate;
+            opacity: 0.25;
+            filter: blur(3px);
+            animation: orbitRotate 60s infinite linear;
         }
 
-        .floating-planet1 { width: 150px; height: 150px; bottom: 10%; left: 5%; background: radial-gradient(circle at 30% 30%, #b5835a, #5a3e2b); }
-        .floating-planet2 { width: 100px; height: 100px; top: 20%; left: 15%; background: radial-gradient(circle at 25% 25%, #6a8c9f, #1e3a4a); animation-delay: -5s; }
-        .floating-planet3 { width: 80px; height: 80px; bottom: 30%; right: 10%; background: radial-gradient(circle at 40% 40%, #d4a373, #7b4f3a); animation-delay: -10s; }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(-30px) rotate(5deg); }
+        .orbit1 {
+            width: 500px;
+            height: 500px;
+            top: 20%;
+            left: -100px;
+            border: 2px dashed rgba(100, 200, 255, 0.2);
+            border-radius: 50%;
+            animation: orbitSpin 80s infinite linear;
         }
 
-        /* Основной контейнер */
+        .orbit2 {
+            width: 700px;
+            height: 700px;
+            bottom: -200px;
+            right: -150px;
+            border: 2px dashed rgba(255, 150, 100, 0.15);
+            border-radius: 50%;
+            animation: orbitSpin 100s infinite linear reverse;
+        }
+
+        .planet-decor {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 20% 20%, #b0b0ff, #404080);
+            border-radius: 50%;
+            top: 50%;
+            left: 0;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 30px #8a6de0;
+        }
+
+        .planet-decor2 {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 30% 30%, #ffb56b, #a15300);
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes orbitSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Метеоритный дождь */
+        .meteor-shower {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .meteor {
+            position: absolute;
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0));
+            transform: rotate(-35deg);
+            animation: meteorFall 3s linear infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes meteorFall {
+            0% { transform: translate(-200px, -200px) rotate(-35deg); opacity: 1; }
+            100% { transform: translate(calc(100vw + 200px), calc(100vh + 200px)) rotate(-35deg); opacity: 0; }
+        }
+
+        /* Основной контейнер с улучшенной читаемостью */
         .container {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem 2rem 3rem;
+            padding: 2rem;
             position: relative;
-            backdrop-filter: blur(1px);
+            backdrop-filter: blur(2px);
         }
 
-        /* Заголовок с неоновым эффектом */
-        header h1 {
-            font-size: 4rem;
-            font-weight: 800;
+        /* Шапка с эффектом глубины */
+        .hero {
             text-align: center;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #b3e5ff, #a0d0ff, #7aaaff, #4f7aff);
+            padding: 4rem 1rem 3rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem;
+            font-weight: 900;
+            background: linear-gradient(145deg, #fff9e6, #ffd966, #b3d9ff, #8ab2ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px #3f6ef0;
-            letter-spacing: 4px;
-            animation: titleGlow 3s infinite alternate;
+            text-shadow: 0 0 40px #3f7eff, 0 0 80px #aa88ff;
+            letter-spacing: 6px;
+            animation: titleFloat 3s infinite alternate;
+            line-height: 1.2;
         }
 
-        @keyframes titleGlow {
-            from { filter: drop-shadow(0 0 5px #2a6fdb); }
-            to { filter: drop-shadow(0 0 25px #4f9fff); }
+        .hero h1 span {
+            display: inline-block;
+            animation: sparkle 2s infinite;
         }
 
-        .description {
-            text-align: center;
-            font-size: 1.3rem;
-            max-width: 800px;
-            margin: 1rem auto 2.5rem;
-            color: #ced8f0;
-            background: rgba(5, 10, 30, 0.5);
-            backdrop-filter: blur(4px);
-            padding: 1rem 2rem;
-            border-radius: 60px;
-            border: 1px solid rgba(100, 180, 255, 0.3);
-            box-shadow: 0 0 30px rgba(0, 150, 255, 0.2);
+        @keyframes titleFloat {
+            from { transform: translateY(0); filter: drop-shadow(0 0 20px #4488ff); }
+            to { transform: translateY(-10px); filter: drop-shadow(0 0 40px #8866ff); }
         }
 
-        /* Вкладки — стеклянные */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 2rem 0 3rem;
-            flex-wrap: wrap;
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; text-shadow: 0 0 30px #fff; }
+            50% { opacity: 0.9; text-shadow: 0 0 60px #ffaa00; }
         }
 
-        .tab {
-            padding: 0.9rem 2.5rem;
-            background: rgba(15, 25, 45, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(80, 160, 255, 0.5);
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.2rem;
-            color: #d0e2ff;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        .hero-description {
+            font-size: 1.4rem;
+            max-width: 900px;
+            margin: 1.5rem auto;
+            color: #e0f0ff;
+            background: rgba(10, 10, 30, 0.4);
+            backdrop-filter: blur(15px);
+            padding: 1.5rem 3rem;
+            border-radius: 100px;
+            border: 1px solid rgba(150, 200, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 50px #3355aa40;
+            font-weight: 300;
             letter-spacing: 1px;
         }
 
-        .tab:hover, .tab.active {
-            background: rgba(30, 70, 150, 0.8);
-            border-color: #5aa9ff;
-            color: white;
-            box-shadow: 0 0 30px #3f8eff;
-            transform: translateY(-3px);
-        }
-
-        /* Счетчики с глянцем */
-        .counters-container {
+        /* Навигация — кристаллические вкладки */
+        .nav-tabs {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 2.5rem;
-            margin: 3rem 0 5rem;
+            gap: 2rem;
+            margin: 3rem 0 4rem;
+            flex-wrap: wrap;
         }
 
-        .counter-box {
-            background: rgba(10, 20, 50, 0.5);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(70, 150, 255, 0.6);
-            border-radius: 30px;
-            padding: 2.2rem 2rem;
-            width: 260px;
-            text-align: center;
-            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(70, 130, 255, 0.2) inset;
+        .nav-tab {
+            padding: 1rem 3rem;
+            background: rgba(20, 30, 60, 0.25);
+            backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(100, 180, 255, 0.6);
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #f0f8ff;
+            cursor: pointer;
             transition: 0.4s;
-        }
-
-        .counter-box:hover {
-            transform: scale(1.05) translateY(-8px);
-            box-shadow: 0 30px 40px -5px #001133, 0 0 30px #3f7eff;
-            border-color: #7ab2ff;
-        }
-
-        .counter-title {
-            font-size: 1.4rem;
-            margin-bottom: 1.2rem;
-            color: #adcbff;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
         }
 
-        .counter {
-            font-size: 4rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff, #c2e0ff);
+        .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+            opacity: 0;
+        }
+
+        .nav-tab:hover::before {
+            opacity: 1;
+            left: 100%;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: rgba(50, 80, 170, 0.5);
+            border-color: #aac9ff;
+            box-shadow: 0 0 40px #3f7eff, 0 10px 30px black;
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        /* Счетчики с 3D эффектом */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .stat-card {
+            background: rgba(8, 15, 35, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(80, 160, 255, 0.5);
+            border-radius: 50px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: 0.5s;
+            box-shadow: 0 30px 40px -20px black, 0 0 0 2px rgba(70, 130, 255, 0.3) inset;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-20px) rotateX(5deg);
+            box-shadow: 0 40px 60px -10px #001c42, 0 0 40px #3f7eff;
+            border-color: #9ac0ff;
+        }
+
+        .stat-card:hover::after {
+            left: 100%;
+        }
+
+        .stat-title {
+            font-size: 1.5rem;
+            color: #b3d6ff;
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .stat-number {
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff, #c5e0ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px #4488ff;
+            text-shadow: 0 0 30px #2266ff;
+            line-height: 1;
         }
 
-        /* Планетные карточки */
-        .planet-grid {
+        /* Планетная галерея */
+        .planets-showcase {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.2rem;
-            margin: 3rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin: 4rem 0;
         }
 
-        .planet-card {
-            background: rgba(10, 20, 40, 0.45);
-            backdrop-filter: blur(12px);
-            border-radius: 40px;
-            padding: 1.8rem;
-            border: 1px solid rgba(90, 170, 255, 0.4);
-            box-shadow: 0 20px 30px -15px #000, 0 0 0 1px rgba(120, 180, 255, 0.3) inset;
-            transition: 0.3s;
+        .planet-item {
+            background: rgba(5, 10, 28, 0.6);
+            backdrop-filter: blur(25px);
+            border-radius: 70px 70px 40px 40px;
+            padding: 2rem 1.8rem 2rem;
+            border: 1px solid rgba(0, 162, 255, 0.6);
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .planet-card:hover {
-            transform: scale(1.02) translateY(-6px);
-            border-color: #5aa9ff;
-            box-shadow: 0 0 40px #1e4f9e;
+        .planet-item::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #ffffff30, transparent 70%);
+            border-radius: 50%;
+            filter: blur(30px);
+        }
+
+        .planet-item:hover {
+            transform: scale(1.02) translateY(-10px);
+            border-color: #88bbff;
+            box-shadow: 0 30px 50px -10px #0a1f3f, 0 0 60px #3066cc;
         }
 
         .planet-name {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            color: #b3e0ff;
             text-align: center;
+            color: #e4f0ff;
+            text-shadow: 0 0 15px #3f8eff;
             margin-bottom: 1.5rem;
-            text-shadow: 0 0 10px #1e90ff;
-            border-bottom: 1px dashed #3f7eff;
-            padding-bottom: 0.5rem;
+            border-bottom: 2px dashed #5f9eff;
+            padding-bottom: 0.7rem;
         }
 
-        .planet-stats {
-            list-style: none;
-            color: #d3e2fd;
+        .planet-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dotted #335599;
+            color: #c9ddff;
+            font-size: 1rem;
         }
 
-        .planet-stats li {
-            margin-bottom: 0.75rem;
-            padding-left: 1.5rem;
-            position: relative;
-            font-size: 0.95rem;
-            border-left: 2px solid #3483ff;
-            line-height: 1.4;
+        .planet-detail span:first-child {
+            color: #9ab9ff;
+            font-weight: 300;
         }
 
-        /* FAQ */
-        .faq h2 {
-            font-size: 2.8rem;
+        .planet-detail span:last-child {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* FAQ аккордеон */
+        .faq-section {
+            max-width: 900px;
+            margin: 3rem auto;
+        }
+
+        .faq-title {
+            font-size: 3rem;
             text-align: center;
-            color: #c4ddff;
-            text-shadow: 0 0 15px #3f7aff;
-            margin-bottom: 2rem;
+            color: #e2f0ff;
+            text-shadow: 0 0 30px #3388ff;
+            margin-bottom: 3rem;
         }
 
-        .faq-item {
-            background: rgba(5, 15, 35, 0.6);
-            backdrop-filter: blur(8px);
-            border-radius: 30px;
-            margin-bottom: 1.2rem;
-            border: 1px solid #2f6ec0;
-            transition: 0.2s;
+        .faq-card {
+            background: rgba(8, 16, 32, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #3c6db0;
+            overflow: hidden;
+            transition: 0.3s;
         }
 
-        .faq-item:hover {
-            background: rgba(20, 40, 70, 0.7);
-            border-color: #5a9cff;
+        .faq-card:hover {
+            border-color: #7eaeff;
+            box-shadow: 0 0 30px #1f4f9e;
         }
 
         .faq-question {
-            padding: 1.5rem 2rem;
+            padding: 1.8rem 2.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            font-size: 1.2rem;
+            color: #d6e9ff;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #e0edff;
+            background: rgba(10, 20, 45, 0.5);
         }
 
         .faq-question span {
-            font-size: 1.5rem;
-            color: #7aaaff;
+            font-size: 2rem;
+            color: #7ca9ff;
+            transition: 0.3s;
         }
 
         .faq-answer {
-            padding: 0 2rem 1.5rem 2rem;
+            padding: 0 2.5rem 1.8rem 2.5rem;
+            color: #bcd3ff;
+            line-height: 1.7;
             display: none;
-            color: #c2d6ff;
-            line-height: 1.6;
-            border-top: 1px solid #326bb5;
+            font-size: 1.1rem;
         }
 
-        /* Кнопки */
-        .cosmic-btn {
-            background: linear-gradient(145deg, #1b2f55, #10223f);
-            border: 2px solid #4d8cff;
+        /* Супер-кнопка */
+        .super-button {
+            background: linear-gradient(145deg, #1f3a6b, #0a1a3a);
+            border: 2px solid #3f8aff;
             color: white;
-            padding: 1rem 2.8rem;
-            border-radius: 60px;
-            font-size: 1.3rem;
-            font-weight: 600;
+            padding: 1.2rem 3.5rem;
+            border-radius: 80px;
+            font-size: 1.5rem;
+            font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7), 0 0 20px #3f7eff;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.7), 0 0 50px #2266dd;
             transition: 0.3s;
-            backdrop-filter: blur(4px);
-            margin: 2rem auto;
-            display: block;
-        }
-
-        .cosmic-btn:hover {
-            background: linear-gradient(145deg, #244880, #162f5c);
-            box-shadow: 0 0 35px #3a7eff, 0 5px 15px black;
-            transform: scale(1.02);
-            border-color: #7ab0ff;
-        }
-
-        /* Калькулятор */
-        .calculator-section {
-            max-width: 650px;
             margin: 3rem auto;
-            padding: 2.5rem;
-            background: rgba(8, 15, 35, 0.75);
-            backdrop-filter: blur(15px);
-            border-radius: 60px;
-            border: 1px solid #557fd9;
-            box-shadow: 0 0 60px #1e3d7c;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .super-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .super-button:hover {
+            background: linear-gradient(145deg, #2b4a85, #112548);
+            border-color: #a6cbff;
+            box-shadow: 0 0 80px #3f7eff, 0 20px 30px black;
+            transform: scale(1.05);
+        }
+
+        .super-button:hover::before {
+            left: 100%;
+        }
+
+        /* Калькулятор — космическая панель */
+        .calc-panel {
+            max-width: 700px;
+            margin: 2rem auto;
+            padding: 3rem;
+            background: rgba(2, 8, 22, 0.8);
+            backdrop-filter: blur(30px);
+            border-radius: 100px 100px 60px 60px;
+            border: 2px solid #4277cf;
+            box-shadow: 0 0 100px #1b3f8b;
             display: none;
             flex-direction: column;
         }
 
-        .calculator-header {
-            font-size: 2.2rem;
-            color: #b3dbff;
+        .calc-header {
+            font-size: 2.5rem;
+            color: #d3e9ff;
             text-align: center;
             margin-bottom: 2rem;
+            text-shadow: 0 0 20px #4280ff;
         }
 
-        .calculator-form {
+        .calc-form {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 1.8rem;
         }
 
-        select, .calculate-btn {
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            background: #0b1730;
-            border: 2px solid #3f72ce;
+        .cosmic-select {
+            padding: 1.2rem 2rem;
+            border-radius: 60px;
+            background: #0d1a30;
+            border: 2px solid #3470d0;
             color: white;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='white'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 1.5rem center;
+            cursor: pointer;
+        }
+
+        .cosmic-select:focus {
+            border-color: #8bb6ff;
+            box-shadow: 0 0 30px #346ee0;
             outline: none;
-            transition: 0.2s;
         }
 
-        select:focus, .calculate-btn:hover {
-            border-color: #94bcff;
-            box-shadow: 0 0 20px #3f7eff;
-        }
-
-        .result {
-            margin-top: 2rem;
-            font-size: 1.4rem;
-            color: #c6deff;
+        .calc-result {
+            margin-top: 2.5rem;
+            padding: 1.5rem;
+            background: #0a1833;
+            border-radius: 60px;
+            font-size: 1.6rem;
             text-align: center;
-            padding: 1rem;
-            background: #0f1b33;
-            border-radius: 50px;
+            color: #e7f2ff;
+            border: 1px solid #6080dd;
         }
 
         /* Игровая зона */
-        .game-section {
-            margin-top: 5rem;
+        .game-zone {
+            margin: 5rem 0;
             text-align: center;
         }
 
-        .game-header {
-            font-size: 2.5rem;
-            color: #b3e4ff;
-            text-shadow: 0 0 20px #3a7dff;
+        .game-headline {
+            font-size: 3rem;
+            color: #ffecb3;
+            text-shadow: 0 0 30px #ffaa33, 0 0 60px #ff7700;
+            margin-bottom: 1rem;
         }
 
-        .game-area {
+        .game-container {
             position: relative;
             width: 100%;
-            max-width: 900px;
-            height: 450px;
-            margin: 1.5rem auto;
-            border: 3px solid #4080ff;
-            border-radius: 50px;
-            background: radial-gradient(circle at 50% 30%, #0a142f, #01020a);
-            box-shadow: 0 0 60px #1b3e8b;
+            max-width: 1000px;
+            height: 500px;
+            margin: 2rem auto;
+            border: 3px solid #5487ff;
+            border-radius: 80px;
+            background: radial-gradient(circle at 50% 30%, #0c142e, #010314);
+            box-shadow: 0 0 100px #2b50aa;
             overflow: hidden;
             display: none;
         }
 
         .game-star {
             position: absolute;
-            width: 25px;
-            height: 25px;
-            background: radial-gradient(circle, #fffbc2, #ffd966);
+            width: 35px;
+            height: 35px;
+            background: radial-gradient(circle at 30% 30%, #ffffd0, #ffc800);
             border-radius: 50%;
-            box-shadow: 0 0 25px #f9f3b0;
+            box-shadow: 0 0 40px #ffdb8e;
             cursor: pointer;
             transition: 0.1s;
-            pointer-events: all;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
         }
 
         .game-star:hover {
-            transform: scale(1.3);
-            background: #fffbe3;
-            box-shadow: 0 0 40px #fffbba;
+            transform: scale(1.3) rotate(15deg);
+            background: radial-gradient(circle at 30% 30%, #ffffaa, #ffaa33);
+            box-shadow: 0 0 80px #fff3b0;
         }
 
-        #scoreDisplay, #timerDisplay {
+        .game-info {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            justify-content: space-between;
             font-size: 2rem;
-            font-weight: 600;
-            text-shadow: 0 0 20px #3388ff;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 0.4rem 1.2rem;
-            border-radius: 40px;
-            backdrop-filter: blur(5px);
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 0 30px #3388ff;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            backdrop-filter: blur(8px);
+            border: 1px solid #7799ff;
+            z-index: 10;
         }
 
-        footer {
-            text-align: center;
+        /* footer */
+        .cosmic-footer {
+            margin-top: 6rem;
             padding: 2rem;
-            color: #8ba9e6;
+            text-align: center;
+            border-top: 2px solid #3355aa;
+            color: #99bbff;
             font-size: 1.1rem;
-            border-top: 1px dashed #4169b3;
-            margin-top: 4rem;
+            position: relative;
+        }
+
+        .cosmic-footer::before {
+            content: '✦ ✦ ✦';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #030514;
+            padding: 0 30px;
+            color: #7aa5ff;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .hero h1 { font-size: 3.5rem; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .hero-description { font-size: 1.1rem; padding: 1rem; }
         }
     </style>
 </head>
 <body>
-    <div class="cosmic-bg"></div>
-    <div class="stars"></div>
-    <div class="twinkling"></div>
-    <div class="sun"></div>
-    <div class="floating-planet floating-planet1"></div>
-    <div class="floating-planet floating-planet2"></div>
-    <div class="floating-planet floating-planet3"></div>
+    <canvas id="bgCanvas"></canvas>
+    <div class="universe">
+        <div class="particles"></div>
+        <div class="star-core"></div>
+        <div class="orbit-planet orbit1"><div class="planet-decor"></div></div>
+        <div class="orbit-planet orbit2"><div class="planet-decor planet-decor2"></div></div>
+        <div class="meteor-shower" id="meteorShower"></div>
+    </div>
 
     <div class="container">
-        <header>
-            <h1>✦ ПЛАНЕТАРНАЯ СТАТИСТИКА ✦</h1>
-            <p class="description">Глубокий космос, актуальные данные о планетах, экзопланетах и спутниках. Погрузись в цифры Вселенной.</p>
-        </header>
+        <div class="hero">
+            <h1>✦ КОСМИЧЕСКАЯ <span>СТАТИСТИКА</span> ✦</h1>
+            <p class="hero-description">Погружение в бескрайний космос • Данные NASA/ESA • Реальное время • Галактическая эстетика</p>
+        </div>
 
-        <div class="tabs">
-            <div class="tab active" data-tab="stats">Статистика</div>
-            <div class="tab" data-tab="info">Планеты</div>
-            <div class="tab" data-tab="faq">FAQ</div>
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-tab="stats">🌠 Статистика</div>
+            <div class="nav-tab" data-tab="info">🪐 Планеты</div>
+            <div class="nav-tab" data-tab="faq">❓ FAQ</div>
         </div>
 
         <div id="tab-content">
             <!-- Статистика -->
             <div class="tab-pane" id="stats" style="display: block;">
-                <div class="counters-container">
-                    <div class="counter-box"><div class="counter-title">Открыто планет</div><div class="counter" data-target="4164">0</div></div>
-                    <div class="counter-box"><div class="counter-title">Экзопланет</div><div class="counter" data-target="5138">0</div></div>
-                    <div class="counter-box"><div class="counter-title">Спутников</div><div class="counter" data-target="205">0</div></div>
-                    <div class="counter-box"><div class="counter-title">Карликовых планет</div><div class="counter" data-target="9">0</div></div>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-title">Открыто планет</div><div class="stat-number" data-target="4164">0</div></div>
+                    <div class="stat-card"><div class="stat-title">Экзопланет</div><div class="stat-number" data-target="5138">0</div></div>
+                    <div class="stat-card"><div class="stat-title">Спутников</div><div class="stat-number" data-target="205">0</div></div>
+                    <div class="stat-card"><div class="stat-title">Карликовых планет</div><div class="stat-number" data-target="9">0</div></div>
                 </div>
             </div>
 
             <!-- Планеты -->
             <div class="tab-pane" id="info" style="display:none;">
-                <div class="planet-grid">
-                    <div class="planet-card"><h3 class="planet-name">Меркурий</h3><ul class="planet-stats"><li>Диаметр: 4,879 км</li><li>Масса: 0.33×10²⁴ кг</li><li>Температура: -173°C .. 427°C</li><li>Спутников: 0</li><li>Тип: Скальный</li></ul></div>
-                    <div class="planet-card"><h3 class="planet-name">Венера</h3><ul class="planet-stats"><li>Диаметр: 12,104 км</li><li>Масса: 4.87×10²⁴ кг</li><li>Температура: 462°C</li><li>Спутников: 0</li><li>Атмосфера: CO₂</li></ul></div>
-                    <div class="planet-card"><h3 class="planet-name">Земля</h3><ul class="planet-stats"><li>Диаметр: 12,742 км</li><li>Масса: 5.97×10²⁴ кг</li><li>Температура: 15°C (ср.)</li><li>Спутников: 1 (Луна)</li><li>Атмосфера: N₂/O₂</li></ul></div>
-                    <div class="planet-card"><h3 class="planet-name">Марс</h3><ul class="planet-stats"><li>Диаметр: 6,779 км</li><li>Масса: 0.64×10²⁴ кг</li><li>Температура: -153°C .. 20°C</li><li>Спутников: 2</li><li>Атмосфера: CO₂</li></ul></div>
-                    <div class="planet-card"><h3 class="planet-name">Юпитер</h3><ul class="planet-stats"><li>Диаметр: 139,822 км</li><li>Масса: 1,898×10²⁷ кг</li><li>Температура: -145°C</li><li>Спутников: 79</li><li>Газовый гигант</li></ul></div>
-                    <div class="planet-card"><h3 class="planet-name">Сатурн</h3><ul class="planet-stats"><li>Диаметр: 116,464 км</li><li>Масса: 5,683×10²⁶ кг</li><li>Температура: -178°C</li><li>Спутников: 82</li><li>Кольца</li></ul></div>
-                    <div class="planet-card"><h3 class="planet-name">Уран</h3><ul class="planet-stats"><li>Диаметр: 50,724 км</li><li>Масса: 8,681×10²⁵ кг</li><li>Температура: -197°C</li><li>Спутников: 27</li><li>Ледяной гигант</li></ul></div>
-                    <div class="planet-card"><h3 class="planet-name">Нептун</h3><ul class="planet-stats"><li>Диаметр: 49,244 км</li><li>Масса: 1,024×10²⁶ кг</li><li>Температура: -200°C</li><li>Спутников: 14</li><li>Ледяной гигант</li></ul></div>
+                <div class="planets-showcase">
+                    <div class="planet-item">
+                        <h3 class="planet-name">☿ Меркурий</h3>
+                        <div class="planet-detail"><span>Диаметр</span> <span>4 879 км</span></div>
+                        <div class="planet-detail"><span>Масса</span> <span>0.33×10²⁴ кг</span></div>
+                        <div class="planet-detail"><span>Температура</span> <span>-173°C .. 427°C</span></div>
+                        <div class="planet-detail"><span>Спутники</span> <span>0</span></div>
+                    </div>
+                    <div class="planet-item">
+                        <h3 class="planet-name">♀ Венера</h3>
+                        <div class="planet-detail"><span>Диаметр</span> <span>12 104 км</span></div>
+                        <div class="planet-detail"><span>Масса</span> <span>4.87×10²⁴ кг</span></div>
+                        <div class="planet-detail"><span>Температура</span> <span>462°C</span></div>
+                        <div class="planet-detail"><span>Спутники</span> <span>0</span></div>
+                    </div>
+                    <div class="planet-item">
+                        <h3 class="planet-name">🌍 Земля</h3>
+                        <div class="planet-detail"><span>Диаметр</span> <span>12 742 км</span></div>
+                        <div class="planet-detail"><span>Масса</span> <span>5.97×10²⁴ кг</span></div>
+                        <div class="planet-detail"><span>Температура</span> <span>15°C (ср.)</span></div>
+                        <div class="planet-detail"><span>Спутники</span> <span>1 (Луна)</span></div>
+                    </div>
+                    <div class="planet-item">
+                        <h3 class="planet-name">♂ Марс</h3>
+                        <div class="planet-detail"><span>Диаметр</span> <span>6 779 км</span></div>
+                        <div class="planet-detail"><span>Масса</span> <span>0.64×10²⁴ кг</span></div>
+                        <div class="planet-detail"><span>Температура</span> <span>-153°C .. 20°C</span></div>
+                        <div class="planet-detail"><span>Спутники</span> <span>2</span></div>
+                    </div>
+                    <div class="planet-item">
+                        <h3 class="planet-name">♃ Юпитер</h3>
+                        <div class="planet-detail"><span>Диаметр</span> <span>139 822 км</span></div>
+                        <div class="planet-detail"><span>Масса</span> <span>1 898×10²⁴ кг</span></div>
+                        <div class="planet-detail"><span>Температура</span> <span>-145°C</span></div>
+                        <div class="planet-detail"><span>Спутники</span> <span>79</span></div>
+                    </div>
+                    <div class="planet-item">
+                        <h3 class="planet-name">♄ Сатурн</h3>
+                        <div class="planet-detail"><span>Диаметр</span> <span>116 464 км</span></div>
+                        <div class="planet-detail"><span>Масса</span> <span>568×10²⁴ кг</span></div>
+                        <div class="planet-detail"><span>Температура</span> <span>-178°C</span></div>
+                        <div class="planet-detail"><span>Спутники</span> <span>82</span></div>
+                    </div>
+                    <div class="planet-item">
+                        <h3 class="planet-name">♅ Уран</h3>
+                        <div class="planet-detail"><span>Диаметр</span> <span>50 724 км</span></div>
+                        <div class="planet-detail"><span>Масса</span> <span>86.8×10²⁴ кг</span></div>
+                        <div class="planet-detail"><span>Температура</span> <span>-197°C</span></div>
+                        <div class="planet-detail"><span>Спутники</span> <span>27</span></div>
+                    </div>
+                    <div class="planet-item">
+                        <h3 class="planet-name">♆ Нептун</h3>
+                        <div class="planet-detail"><span>Диаметр</span> <span>49 244 км</span></div>
+                        <div class="planet-detail"><span>Масса</span> <span>102×10²⁴ кг</span></div>
+                        <div class="planet-detail"><span>Температура</span> <span>-200°C</span></div>
+                        <div class="planet-detail"><span>Спутники</span> <span>14</span></div>
+                    </div>
                 </div>
             </div>
 
             <!-- FAQ -->
             <div class="tab-pane" id="faq" style="display:none;">
-                <div class="faq">
-                    <h2>❓ ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h2>
-                    <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Что такое экзопланеты? <span>▼</span></div><div class="faq-answer">Планеты за пределами Солнечной системы, вращающиеся вокруг других звёзд.</div></div>
-                    <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Как измеряют диаметр планеты? <span>▼</span></div><div class="faq-answer">С помощью транзитов, радиолокации и данных зондов.</div></div>
-                    <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Что такое карликовые планеты? <span>▼</span></div><div class="faq-answer">Объекты с округлой формой, не расчистившие орбиту (Плутон и др.).</div></div>
-                    <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Какие планеты — газовые гиганты? <span>▼</span></div><div class="faq-answer">Юпитер, Сатурн (в основном водород и гелий).</div></div>
+                <div class="faq-section">
+                    <h2 class="faq-title">✦ ГЛУБОКИЙ КОСМОС: ВОПРОСЫ ✦</h2>
+                    <div class="faq-card"><div class="faq-question" onclick="toggleFaq(this)">Что такое экзопланеты? <span>⧩</span></div><div class="faq-answer">Экзопланеты — это планеты, находящиеся за пределами Солнечной системы, вращающиеся вокруг других звёзд. Открыты тысячами благодаря телескопам Kepler и TESS.</div></div>
+                    <div class="faq-card"><div class="faq-question" onclick="toggleFaq(this)">Как измеряют расстояние до планет? <span>⧩</span></div><div class="faq-answer">Используют радиолокацию (для ближних), параллакс, а также законы Кеплера и данные зондов. Для экзопланет — метод транзита и радиальных скоростей.</div></div>
+                    <div class="faq-card"><div class="faq-question" onclick="toggleFaq(this)">Что такое карликовые планеты? <span>⧩</span></div><div class="faq-answer">Это небесные тела, которые имеют достаточную массу для округлой формы, но не очистили свою орбиту от других объектов. Пример: Плутон, Эрида, Церера.</div></div>
+                    <div class="faq-card"><div class="faq-question" onclick="toggleFaq(this)">Какая планета самая большая? <span>⧩</span></div><div class="faq-answer">Юпитер — диаметр 139 822 км, масса в 318 раз больше Земли. Он больше всех остальных планет вместе взятых!</div></div>
+                    <div class="faq-card"><div class="faq-question" onclick="toggleFaq(this)">Почему у Сатурна есть кольца? <span>⧩</span></div><div class="faq-answer">Кольца состоят из льда и пыли — остатков комет, астероидов или разрушенных спутников, захваченных гравитацией.</div></div>
                 </div>
             </div>
         </div>
 
-        <button class="cosmic-btn" id="toggleCalculator">🚀 РАСЧЁТ РАССТОЯНИЙ</button>
+        <button class="super-button" id="toggleCalcBtn">🚀 КАЛЬКУЛЯТОР РАССТОЯНИЙ</button>
 
-        <div class="calculator-section" id="calculatorSection">
-            <div class="calculator-header">Расстояние между планетами</div>
-            <form class="calculator-form" id="distanceForm">
-                <select id="planet1" required><option value="">— Первая планета —</option><option value="Mercury" data-distance="57.9">Меркурий</option><option value="Venus" data-distance="108.2">Венера</option><option value="Earth" data-distance="149.6">Земля</option><option value="Mars" data-distance="227.9">Марс</option><option value="Jupiter" data-distance="778.5">Юпитер</option><option value="Saturn" data-distance="1434">Сатурн</option><option value="Uranus" data-distance="2871">Уран</option><option value="Neptune" data-distance="4495">Нептун</option></select>
-                <select id="planet2" required><option value="">— Вторая планета —</option><option value="Mercury" data-distance="57.9">Меркурий</option><option value="Venus" data-distance="108.2">Венера</option><option value="Earth" data-distance="149.6">Земля</option><option value="Mars" data-distance="227.9">Марс</option><option value="Jupiter" data-distance="778.5">Юпитер</option><option value="Saturn" data-distance="1434">Сатурн</option><option value="Uranus" data-distance="2871">Уран</option><option value="Neptune" data-distance="4495">Нептун</option></select>
-                <button type="submit" class="calculate-btn">ВЫЧИСЛИТЬ</button>
+        <div class="calc-panel" id="calcPanel">
+            <div class="calc-header">⚡ МЕЖПЛАНЕТНЫЕ ДАЛЬНОСТИ ⚡</div>
+            <form class="calc-form" id="distanceForm">
+                <select class="cosmic-select" id="planet1" required>
+                    <option value="">🌑 Выберите первую планету</option>
+                    <option value="Mercury" data-dist="57.9">Меркурий</option>
+                    <option value="Venus" data-dist="108.2">Венера</option>
+                    <option value="Earth" data-dist="149.6">Земля</option>
+                    <option value="Mars" data-dist="227.9">Марс</option>
+                    <option value="Jupiter" data-dist="778.5">Юпитер</option>
+                    <option value="Saturn" data-dist="1434">Сатурн</option>
+                    <option value="Uranus" data-dist="2871">Уран</option>
+                    <option value="Neptune" data-dist="4495">Нептун</option>
+                </select>
+                <select class="cosmic-select" id="planet2" required>
+                    <option value="">🌕 Выберите вторую планету</option>
+                    <option value="Mercury" data-dist="57.9">Меркурий</option>
+                    <option value="Venus" data-dist="108.2">Венера</option>
+                    <option value="Earth" data-dist="149.6">Земля</option>
+                    <option value="Mars" data-dist="227.9">Марс</option>
+                    <option value="Jupiter" data-dist="778.5">Юпитер</option>
+                    <option value="Saturn" data-dist="1434">Сатурн</option>
+                    <option value="Uranus" data-dist="2871">Уран</option>
+                    <option value="Neptune" data-dist="4495">Нептун</option>
+                </select>
+                <button type="submit" class="super-button" style="margin:0; font-size:1.3rem;">ВЫЧИСЛИТЬ</button>
             </form>
-            <div class="result" id="distanceResult"></div>
+            <div class="calc-result" id="calcResult">✨ Ожидание выбора ✨</div>
         </div>
 
         <!-- Игра -->
-        <div class="game-section">
-            <h2 class="game-header">✨ ЛОВЕЦ ЗВЁЗД ✨</h2>
-            <p style="color:#b9ceff;">Лови падающие звёзды! 30 секунд на набор очков.</p>
-            <button class="cosmic-btn" id="startGame" style="margin-top:0;">НАЧАТЬ ИГРУ</button>
-            <div id="gameArea" class="game-area">
-                <div id="scoreDisplay" style="position:absolute; top:15px; left:20px;">Очки: 0</div>
-                <div id="timerDisplay" style="position:absolute; top:15px; right:20px;">Время: 30</div>
+        <div class="game-zone">
+            <h2 class="game-headline">✨ ЛОВИ ЗВЕЗДЫ! ✨</h2>
+            <p style="color:#b9d2ff; font-size:1.3rem;">30 секунд космической охоты. Звезды приносят очки!</p>
+            <button class="super-button" id="startGameBtn" style="margin-top:0;">🌟 СТАРТ ИГРЫ 🌟</button>
+            <div class="game-container" id="gameContainer">
+                <div class="game-info">
+                    <span id="gameScore">Очки: 0</span>
+                    <span id="gameTimer">Время: 30</span>
+                </div>
             </div>
         </div>
 
-        <footer>© 2025 Космическая статистика • данные NASA/ESA • улучшенный дизайн</footer>
+        <footer class="cosmic-footer">
+            <p>© 2025 КОСМИЧЕСКАЯ СТАТИСТИКА • ВСЕЛЕННАЯ В ЦИФРАХ • ДАННЫЕ NASA/ESA</p>
+        </footer>
     </div>
 
     <script>
-        function toggleFaq(el) {
-            const answer = el.nextElementSibling;
-            answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+        // Canvas звездное поле (3D эффект)
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let stars = [];
+
+        function initCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            stars = [];
+            for (let i = 0; i < 400; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    z: Math.random() * 3,
+                    size: Math.random() * 2 + 0.5
+                });
+            }
         }
 
+        function drawStars() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'white';
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size * (1 + Math.sin(Date.now() * 0.001 + s.z)) * 0.8, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${0.6 + Math.random() * 0.4})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', () => {
+            initCanvas();
+        });
+
+        initCanvas();
+        drawStars();
+
+        // Метеориты
+        function createMeteors() {
+            const shower = document.getElementById('meteorShower');
+            for (let i = 0; i < 15; i++) {
+                const meteor = document.createElement('div');
+                meteor.className = 'meteor';
+                meteor.style.left = Math.random() * 100 + '%';
+                meteor.style.top = Math.random() * 100 + '%';
+                meteor.style.animationDelay = Math.random() * 5 + 's';
+                meteor.style.animationDuration = 2 + Math.random() * 3 + 's';
+                shower.appendChild(meteor);
+            }
+        }
+        createMeteors();
+
         // Переключение вкладок
-        document.querySelectorAll('.tab').forEach(tab => {
+        document.querySelectorAll('.nav-tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
                 document.getElementById(tab.dataset.tab).style.display = 'block';
-                if (tab.dataset.tab === 'stats') animateCounters();
+                if (tab.dataset.tab === 'stats') animateStats();
             });
         });
 
-        // Анимация счётчиков
-        function animateCounters() {
-            document.querySelectorAll('.counter').forEach(counter => {
+        // Анимация статистики
+        function animateStats() {
+            document.querySelectorAll('.stat-number').forEach(counter => {
                 const target = +counter.dataset.target;
                 let current = 0;
-                const step = Math.ceil(target / 150);
+                const step = target / 100;
                 function update() {
                     current += step;
                     if (current >= target) current = target;
-                    counter.innerText = current.toLocaleString();
+                    counter.innerText = Math.floor(current).toLocaleString();
                     if (current < target) requestAnimationFrame(update);
                 }
                 update();
             });
         }
 
+        // FAQ toggle
+        window.toggleFaq = function(element) {
+            const answer = element.nextElementSibling;
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        };
+
         // Калькулятор
-        document.getElementById('toggleCalculator').addEventListener('click', () => {
-            const sec = document.getElementById('calculatorSection');
-            sec.style.display = sec.style.display === 'flex' ? 'none' : 'flex';
+        const toggleBtn = document.getElementById('toggleCalcBtn');
+        const calcPanel = document.getElementById('calcPanel');
+        toggleBtn.addEventListener('click', () => {
+            calcPanel.style.display = calcPanel.style.display === 'flex' ? 'none' : 'flex';
         });
 
         document.getElementById('distanceForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const p1 = document.getElementById('planet1');
             const p2 = document.getElementById('planet2');
-            const d1 = parseFloat(p1.options[p1.selectedIndex]?.getAttribute('data-distance'));
-            const d2 = parseFloat(p2.options[p2.selectedIndex]?.getAttribute('data-distance'));
+            const d1 = parseFloat(p1.options[p1.selectedIndex]?.dataset.dist);
+            const d2 = parseFloat(p2.options[p2.selectedIndex]?.dataset.dist);
             if (isNaN(d1) || isNaN(d2)) {
-                document.getElementById('distanceResult').innerText = 'Выберите две планеты.';
+                document.getElementById('calcResult').innerText = '❌ Выбете обе планеты!';
                 return;
             }
-            document.getElementById('distanceResult').innerText = `✨ Расстояние: ${Math.abs(d1 - d2).toFixed(1)} млн км ✨`;
+            const dist = Math.abs(d1 - d2).toFixed(1);
+            document.getElementById('calcResult').innerHTML = `✦ ${p1.options[p1.selectedIndex].text} ⇢ ${p2.options[p2.selectedIndex].text} ✦<br> ≈ ${dist} млн км (${(dist/149.6).toFixed(2)} а.е.)`;
         });
 
         // Игра
-        let timer, spawner, time = 30, score = 0;
-        const gameArea = document.getElementById('gameArea');
-        const scoreEl = document.getElementById('scoreDisplay');
-        const timerEl = document.getElementById('timerDisplay');
-        const startBtn = document.getElementById('startGame');
+        const startBtn = document.getElementById('startGameBtn');
+        const gameContainer = document.getElementById('gameContainer');
+        const scoreSpan = document.getElementById('gameScore');
+        const timerSpan = document.getElementById('gameTimer');
+        let gameInterval, starInterval;
+        let timeLeft = 30;
+        let points = 0;
 
         startBtn.addEventListener('click', () => {
-            if (gameArea.style.display === 'block') return;
-            gameArea.style.display = 'block';
+            if (gameContainer.style.display === 'block') return;
+            gameContainer.style.display = 'block';
             startBtn.style.display = 'none';
-            time = 30; score = 0;
-            scoreEl.innerText = 'Очки: 0';
-            timerEl.innerText = 'Время: 30';
+            timeLeft = 30;
+            points = 0;
+            scoreSpan.innerText = 'Очки: 0';
+            timerSpan.innerText = 'Время: 30';
+            gameContainer.innerHTML = `<div class="game-info"><span id="gameScore">Очки: 0</span><span id="gameTimer">Время: 30</span></div>`;
 
-            timer = setInterval(() => {
-                time--;
-                timerEl.innerText = `Время: ${time}`;
-                if (time <= 0) {
-                    clearInterval(timer);
-                    clearTimeout(spawner);
-                    alert(`Игра окончена! Очки: ${score}`);
-                    gameArea.innerHTML = '<div id="scoreDisplay" style="position:absolute; top:15px; left:20px;">Очки: 0</div><div id="timerDisplay" style="position:absolute; top:15px; right:20px;">Время: 30</div>';
-                    gameArea.style.display = 'none';
+            gameInterval = setInterval(() => {
+                timeLeft--;
+                timerSpan.innerText = `Время: ${timeLeft}`;
+                if (timeLeft <= 0) {
+                    clearInterval(gameInterval);
+                    clearInterval(starInterval);
+                    alert(`✨ Игра окончена! Вы собрали ${points} звёзд! ✨`);
+                    gameContainer.style.display = 'none';
                     startBtn.style.display = 'inline-block';
-                    score = 0;
                 }
             }, 1000);
 
-            function spawnStar() {
-                if (time <= 0) return;
+            starInterval = setInterval(() => {
+                if (timeLeft <= 0) return;
                 const star = document.createElement('div');
                 star.className = 'game-star';
-                star.style.left = Math.random() * (gameArea.clientWidth - 30) + 'px';
+                star.style.left = Math.random() * (gameContainer.clientWidth - 50) + 'px';
                 star.style.top = '0px';
-                gameArea.appendChild(star);
+                gameContainer.appendChild(star);
 
-                const fall = star.animate([
+                const fallTime = 2000 + Math.random() * 2000;
+                const animation = star.animate([
                     { transform: 'translateY(0)', opacity: 1 },
-                    { transform: `translateY(${gameArea.clientHeight - 30}px)`, opacity: 0.4 }
-                ], { duration: 2500 + Math.random() * 1500, fill: 'forwards' });
+                    { transform: `translateY(${gameContainer.clientHeight - 40}px)`, opacity: 0.3 }
+                ], { duration: fallTime, fill: 'forwards' });
 
                 star.addEventListener('click', () => {
-                    score++;
-                    scoreEl.innerText = `Очки: ${score}`;
+                    points++;
+                    scoreSpan.innerText = `Очки: ${points}`;
                     star.remove();
                 });
 
-                fall.onfinish = () => star.remove();
-                spawner = setTimeout(spawnStar, 350 + Math.random() * 300);
-            }
-            spawnStar();
+                animation.onfinish = () => star.remove();
+            }, 400);
         });
 
-        window.onload = () => {
-            document.querySelector('.tab[data-tab="stats"]').click();
-        };
+        // Инициализация статистики
+        document.querySelector('.nav-tab[data-tab="stats"]').click();
     </script>
 </body>
 </html>
